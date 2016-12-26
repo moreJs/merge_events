@@ -1,0 +1,33 @@
+{
+  "name": "merge_events",
+  "version": "1.0.0",
+  "description": "合并一定时间间隔内的事件",
+  "main": "build/event_merge.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "dev": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moreJs/merge_events.git"
+  },
+  "keywords": [
+    "merge_events"
+  ],
+  "author": "jianlei.hjl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moreJs/merge_events/issues"
+  },
+  "homepage": "https://github.com/moreJs/merge_events#readme",
+  "dependencies": {
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "power-assert": "^1.4.2"
+  }
+}
