@@ -2,7 +2,7 @@
 // 判断数字
 var reg = /^\d*$/;
 var EventMerge = (function () {
-    function EventMerge(interval, emitterFun, needCache) {
+    function EventMerge(interval, emitterFun) {
         // cache: uid => profile
         this.cache = new Map();
         // 即将被触发的uid队列
@@ -91,12 +91,12 @@ var EventMerge = (function () {
     };
     EventMerge.prototype._clearEnv = function () {
         this.emitQueue = [];
+        this.isEmited = false;
         if (this.emitWaittingQueue.length > 0) {
             this.emitQueue = this.emitQueue.concat(this.emitWaittingQueue);
             this.emitWaittingQueue = [];
             this._addTimer();
         }
-        this.isEmited = false;
     };
     return EventMerge;
 }());

@@ -30,7 +30,7 @@ export class EventMerge{
     // 是否在触发阶段,默认是false
     isEmited: boolean = false;
 
-    constructor(interval: number, emitterFun: ()=> Promise<any>, needCache) {
+    constructor(interval: number, emitterFun: (string)=> Promise<any>) {
         if(interval && !reg.test(interval+'')) {
             throw new Error('interval must be a number');
         }
@@ -108,11 +108,12 @@ export class EventMerge{
     }
     private _clearEnv() {
         this.emitQueue = [];
+        this.isEmited = false;
+        
         if(this.emitWaittingQueue.length > 0) {
             this.emitQueue = this.emitQueue.concat(this.emitWaittingQueue);
             this.emitWaittingQueue = [];
             this._addTimer();
         }
-        this.isEmited = false;
     }
 }
