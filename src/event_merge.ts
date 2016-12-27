@@ -16,7 +16,7 @@ const reg = /^\d*$/;
 
 
 
-export class EventMergeSimple{
+export class EventMerge{
     // 时间间隔，默认 1000 ms
     interval: number;
     // 真正去服务端取数的方法

@@ -1,6 +1,6 @@
 'use strict';
 
-const EventMergeSimple = require('../build/event_merge_simple').EventMergeSimple;
+const EventMerge = require('../build/event_merge').EventMerge;
 
 //现在有一个 Ajax 接口，根据用户 uid 获取用户 profile 信息，是一个批量接口。我把这个 ajax 请求封装成以下的异步函数
 var requestUserProfile = function(uidList){  // uidList 是一个数组，最大接受 100 个 uid
@@ -65,10 +65,10 @@ const _getUserProfile = function(uid, resolve, reject) {
     });
 }
 
-const eventsMerge = new EventMergeSimple(500, requestUserProfile);
+const eventsMerge = new EventMerge(500, requestUserProfile);
 
 
-//getUserProfile(1).then(profile => console.log(profile.uid));
+getUserProfile(1).then(profile => console.log(profile.uid));
 //getUserProfile(2).then(profile => console.log(profile.uid));
 //getUserProfile(-3).then(profile => console.log('no execute'), err => console.log('err', err));
 //getUserProfile(4).then(profile => console.log(profile.uid));
@@ -80,6 +80,16 @@ const eventsMerge = new EventMergeSimple(500, requestUserProfile);
 //  getUserProfile(7).then(profile => console.log(profile.uid));
 //},501);
 
-for(let i = 0 ,len = 203; i< len; i++) {
-    getUserProfile(i).then(profile => console.log(profile.uid));
-}
+
+
+//setTimeout(() => {
+//  getUserProfile(10000).then(profile => console.log('==================', profile.uid));
+//},11);
+
+
+
+// 一次，最多100个uid
+//for(let i = 0 ,len = 203; i< len; i++) {
+//    getUserProfile(i).then(profile => console.log(profile.uid));
+//}
+

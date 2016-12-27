@@ -1,8 +1,8 @@
 "use strict";
 // 判断数字
 var reg = /^\d*$/;
-var EventMergeSimple = (function () {
-    function EventMergeSimple(interval, emitterFun, needCache) {
+var EventMerge = (function () {
+    function EventMerge(interval, emitterFun, needCache) {
         // cache: uid => profile
         this.cache = new Map();
         // 即将被触发的uid队列
@@ -23,7 +23,7 @@ var EventMergeSimple = (function () {
     /**
      * emit 核心逻辑
      */
-    EventMergeSimple.prototype.emit = function (emitCbObj) {
+    EventMerge.prototype.emit = function (emitCbObj) {
         if (!emitCbObj || !emitCbObj.uid || !emitCbObj.success || !emitCbObj.error) {
             return;
         }
@@ -39,11 +39,11 @@ var EventMergeSimple = (function () {
             this._addTimer();
         }
     };
-    EventMergeSimple.prototype._addTimer = function () {
+    EventMerge.prototype._addTimer = function () {
         var _this = this;
         setTimeout(function () { return _this._run(); }, this.interval);
     };
-    EventMergeSimple.prototype._run = function () {
+    EventMerge.prototype._run = function () {
         var _this = this;
         this.isEmited = true;
         if (this.emitQueue.length > 100) {
@@ -55,11 +55,11 @@ var EventMergeSimple = (function () {
             .catch(function (error) { return _this._error(error); });
     };
     // 服务器端要求，只能接受长度为100的
-    EventMergeSimple.prototype._fixEmitQueue = function () {
+    EventMerge.prototype._fixEmitQueue = function () {
         var leftEmitQueue = this.emitQueue.splice(100);
         this.emitWaittingQueue = leftEmitQueue.concat(this.emitWaittingQueue);
     };
-    EventMergeSimple.prototype._success = function (profiles) {
+    EventMerge.prototype._success = function (profiles) {
         var _this = this;
         profiles && profiles.forEach(function (profile) {
             var uid = profile.uid;
@@ -81,7 +81,7 @@ var EventMergeSimple = (function () {
         // 清除这次请求集合对整体的影响
         this._clearEnv();
     };
-    EventMergeSimple.prototype._error = function (error) {
+    EventMerge.prototype._error = function (error) {
         this.emitQueue.forEach(function (emitCbObj) {
             var error = emitCbObj.error;
             error.call(null, error);
@@ -89,7 +89,7 @@ var EventMergeSimple = (function () {
         // 清除这次请求集合对整体的影响
         this._clearEnv();
     };
-    EventMergeSimple.prototype._clearEnv = function () {
+    EventMerge.prototype._clearEnv = function () {
         this.emitQueue = [];
         if (this.emitWaittingQueue.length > 0) {
             this.emitQueue = this.emitQueue.concat(this.emitWaittingQueue);
@@ -98,7 +98,7 @@ var EventMergeSimple = (function () {
         }
         this.isEmited = false;
     };
-    return EventMergeSimple;
+    return EventMerge;
 }());
-exports.EventMergeSimple = EventMergeSimple;
+exports.EventMerge = EventMerge;
 //# sourceMappingURL=event_merge.js.map
