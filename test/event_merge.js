@@ -380,6 +380,95 @@ describe('EventsMerge 事件合并对象', function(){
         });
     });
 
+    describe('可能具有破坏性的行为', function() {
+        it('uid 可能会有很多个重复', function(done) {
+            this.timeout(2000);
+            let uids = [1,5,1,3,5,3];
+            let count = 0;
+            uids.forEach(uid => {
+                let ref = uid;
+                this.getUserProfile(uid).then(profile => {
+                    count++;
+                    let ret = profile.uid;
+                    assert(ret === ref);
+                    if(count == 6) {
+                        done();
+                    }
+                }, err => done());
+            });
+        });
+
+        it('uid 可能会重复，但是属于不同批次的行为', function(done) {
+            this.timeout(6000);
+            let fuids = [1,5,1,3,5,3];
+            let suids = [1,5,1,3,5,3];
+            let count = 0;
+
+            fuids.forEach(uid => {
+                let ref = uid;
+                this.getUserProfile(uid).then(profile => {
+                    count++;
+                    let ret = profile.uid;
+                    assert(ret === ref);
+                    if(count == 12) {
+                        done();
+                    }
+                }, err => done(err));
+            });
+
+            setTimeout(() => {
+                suids.forEach(uid => {
+                    let ref = uid;
+                    this.getUserProfile(uid).then(profile => {
+                        count++;
+                        let ret = profile.uid;
+                        assert(ret === ref);
+                        if(count == 12) {
+                            done();
+                        }
+                    }, err => done(err));
+                });    
+            },500);
+            
+        });
+
+        it('uid 可能会重复，但是属于不同批次的行为,这种情况下，还是去服务端两次', function(done) {
+            this.timeout(10000);
+            let fuids = [1,5,1,3,5,3];
+            let suids = [1,5,1,3,5,3];
+            let count = 0;
+
+            fuids.forEach(uid => {
+                let ref = uid;
+                this.getUserProfile(uid).then(profile => {
+                    count++;
+                    let ret = profile.uid;
+                    assert(ret === ref);
+                    if(count == 12) {
+                        assert(serverCount === 2);
+                        done();
+                    }
+                }, err => done(err));
+            });
+
+            setTimeout(() => {
+                suids.forEach(uid => {
+                    let ref = uid;
+                    this.getUserProfile(uid).then(profile => {
+                        count++;
+                        let ret = profile.uid;
+                        assert(ret === ref);
+                        if(count == 12) {
+                            assert(serverCount === 2);
+                            done();
+                        }
+                    }, err => done(err));
+                });    
+            },500);
+            
+        });
+    });
+
 });
 
 

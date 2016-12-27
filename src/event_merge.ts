@@ -20,7 +20,7 @@ export class EventMerge{
     // 时间间隔，默认 1000 ms
     interval: number;
     // 真正去服务端取数的方法
-    emitterFun: ()=> Promise<any>;
+    emitterFun: (string)=> Promise<any>;
     // cache: uid => profile
     cache: Map<string, Profile> = new Map();
     // 即将被触发的uid队列
