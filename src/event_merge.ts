@@ -20,9 +20,9 @@ export class EventMerge{
     // 时间间隔，默认 1000 ms
     interval: number;
     // 真正去服务端取数的方法
-    emitterFun: (string)=> Promise<any>;
+    emitterFun: (uids: Array<string>) => Promise<any>;
     // cache: uid => profile
-    cache: Map<string, Profile> = new Map();
+    cache: Map<string, Profile> = new Map<string, Profile>();
     // 即将被触发的uid队列
     emitQueue: Array<EmitCbObj> = new Array();
     // 候补的uid队列
@@ -30,7 +30,7 @@ export class EventMerge{
     // 是否在触发阶段,默认是false
     isEmited: boolean = false;
 
-    constructor(interval: number, emitterFun: (string)=> Promise<any>) {
+    constructor(interval: number, emitterFun: (uids: Array<string>)=> Promise<any>) {
         if(interval && !reg.test(interval+'')) {
             throw new Error('interval must be a number');
         }
