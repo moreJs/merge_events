@@ -1,6 +1,6 @@
 'use strict';
 
-const EventsMerge = require('../build/event_merge').EventsMerge;
+const EventMergeSimple = require('../build/event_merge_simple').EventMergeSimple;
 
 //现在有一个 Ajax 接口，根据用户 uid 获取用户 profile 信息，是一个批量接口。我把这个 ajax 请求封装成以下的异步函数
 var requestUserProfile = function(uidList){  // uidList 是一个数组，最大接受 100 个 uid
@@ -65,26 +65,21 @@ const _getUserProfile = function(uid, resolve, reject) {
     });
 }
 
-const eventsMerge = new EventsMerge(500, requestUserProfile);
+const eventsMerge = new EventMergeSimple(500, requestUserProfile);
 
 
-getUserProfile(1).then(value => console.log('value', value));
-getUserProfile(2).then(value => console.log('value', value));
-getUserProfile(3).then(value => console.log('value', value));
-getUserProfile(4).then(value => console.log('value', value));
-getUserProfile(5).then(value => console.log('value', value));
-getUserProfile(6).then(value => console.log('value', value));
+//getUserProfile(1).then(profile => console.log(profile.uid));
+//getUserProfile(2).then(profile => console.log(profile.uid));
+//getUserProfile(-3).then(profile => console.log('no execute'), err => console.log('err', err));
+//getUserProfile(4).then(profile => console.log(profile.uid));
+//getUserProfile(5).then(profile => console.log(profile.uid));
+//getUserProfile(6).then(profile => console.log(profile.uid));
 
 
-setTimeout(() => {
-  getUserProfile(7).then(value => console.log('value', value));
-},501);
-setTimeout(() => {
-  getUserProfile(8).then(value => console.log('value', value));
-},3000);
-setTimeout(() => {
-  getUserProfile(9).then(value => console.log('value', value));
-},4501);
-setTimeout(() => {
-  getUserProfile(10).then(value => console.log('value', value));
-},5001);
+//setTimeout(() => {
+//  getUserProfile(7).then(profile => console.log(profile.uid));
+//},501);
+
+for(let i = 0 ,len = 203; i< len; i++) {
+    getUserProfile(i).then(profile => console.log(profile.uid));
+}

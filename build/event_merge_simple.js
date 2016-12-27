@@ -101,4 +101,4 @@ var EventMergeSimple = (function () {
     return EventMergeSimple;
 }());
 exports.EventMergeSimple = EventMergeSimple;
-//# sourceMappingURL=event_merge.js.map
+//# sourceMappingURL=event_merge_simple.js.map

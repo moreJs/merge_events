@@ -9,7 +9,10 @@
     "removeComments": false,
     "noImplicitAny": false,
     "outDir": "build",
-    "allowJs": true
+    "allowJs": true,
+    "typeRoots": [
+        "./node_modules/@types" // here is the recommended place to add types now..
+    ]
   },
   "exclude": [
     "node_modules"
