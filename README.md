@@ -8,14 +8,10 @@
 ## 效果
 - npm run dev
 - cd demo
-- node lib.js (node event_merge_demo.js 可以看到核心 EventMerge对象的使用)
+- node lib.js 
 
 
 
-### 流程图
-
-![alt text]( ./image/emit.png)
-![alt text]( ./image/timer.png)
 
 
 ## todo
