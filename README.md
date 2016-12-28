@@ -12,9 +12,11 @@
 
 
 
-### 流程图
+## 流程图
 
+### 外部调用时的逻辑
 ![alt text]( ./image/emit.png)
+### 时间触发器工作的逻辑
 ![alt text]( ./image/timer.png)
 
 
