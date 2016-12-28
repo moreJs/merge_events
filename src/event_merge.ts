@@ -24,9 +24,9 @@ export class EventMerge{
     // cache: uid => profile
     cache: Map<string, Profile> = new Map<string, Profile>();
     // 即将被触发的uid队列
-    emitQueue: Array<EmitCbObj> = new Array();
+    emitQueue: Array<EmitCbObj> = new Array<EmitCbObj>();
     // 候补的uid队列
-    emitWaittingQueue: Array<EmitCbObj> = new Array();
+    emitWaittingQueue: Array<EmitCbObj> = new Array<EmitCbObj>();
     // 是否在触发阶段,默认是false
     isEmited: boolean = false;
 
