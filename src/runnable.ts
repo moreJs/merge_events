@@ -1,5 +1,5 @@
 import { Dispatcher } from './dispatcher';
-import {EmitCbObj, Profile, distinct} from './util';
+import {EmitCbObj, Profile} from './util';
 
 
 /**
