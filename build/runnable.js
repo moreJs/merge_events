@@ -1,5 +1,4 @@
 "use strict";
-var util_1 = require("./util");
 /**
  *
  */
@@ -9,15 +8,21 @@ var Runnable = (function () {
         this.howLong = dispatcher.howLong;
         this.emitterFun = dispatcher.emitterFun;
         this.emitQueue = new Array();
+        this.uids = new Array();
         this.cache = new Map();
     }
     Runnable.prototype.emit = function (emitCbObj) {
         this.emitQueue.push(emitCbObj);
+        var uid = emitCbObj.uid;
+        // 不添加重复的uid
+        if (this.uids.indexOf(uid) === -1) {
+            this.uids.push(uid);
+        }
         if (this.emitQueue.length === 1) {
             this._addTimer();
         }
-        // 处理100的问题
-        if (this.emitQueue.length === 100) {
+        // 处理100的问题, 并且 uids 里面没有重复的uid
+        if (this.uids.length === 100) {
             if (this.timerId) {
                 clearTimeout(this.timerId);
             }
@@ -33,11 +38,8 @@ var Runnable = (function () {
     Runnable.prototype._run = function () {
         var _this = this;
         this._destory();
-        var uids = this.emitQueue.map(function (emitCbObj) {
-            return emitCbObj.uid;
-        });
-        // uids 去重复
-        uids = util_1.distinct(uids);
+        // 直接拿 this.uids 队列里面的即可，这里面保证了不重复,并且长度小于100
+        var uids = this.uids;
         this.emitterFun(uids)
             .then(function (profiles) { return _this._success(profiles); }, function (error) { return _this._error(error); })
             .catch(function (error) { return _this._error(error); });

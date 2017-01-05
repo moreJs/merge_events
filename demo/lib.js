@@ -68,28 +68,28 @@ const _getUserProfile = function(uid, resolve, reject) {
 const dispatcher = new Dispatcher(null, requestUserProfile);
 
 
-getUserProfile(1).then(profile => console.log(profile.uid));
-getUserProfile(2).then(profile => console.log(profile.uid));
-getUserProfile(-3).then(profile => console.log('no execute'), err => console.log('err', err));
-getUserProfile(4).then(profile => console.log(profile.uid));
-getUserProfile(5).then(profile => console.log(profile.uid));
-getUserProfile(6).then(profile => console.log(profile.uid));
+//getUserProfile(1).then(profile => console.log(profile.uid));
+//getUserProfile(2).then(profile => console.log(profile.uid));
+//getUserProfile(-3).then(profile => console.log('no execute'), err => console.log('err', err));
+//getUserProfile(4).then(profile => console.log(profile.uid));
+//getUserProfile(5).then(profile => console.log(profile.uid));
+//getUserProfile(6).then(profile => console.log(profile.uid));
 
 
-setTimeout(() => {
-  getUserProfile(7).then(profile => console.log(profile.uid));
-},101);
+//setTimeout(() => {
+//  getUserProfile(7).then(profile => console.log(profile.uid));
+//},101);
 
 
 
-setTimeout(() => {
-  getUserProfile(10000).then(profile => console.log('==================', profile.uid));
-},310);
+//setTimeout(() => {
+//  getUserProfile(10000).then(profile => console.log('==================', profile.uid));
+//},310);
 
 
 
 // 一次，最多100个uid
-for(let i = 0 ,len = 203; i< len; i++) {
+for(let i = 0 ,len = 1003; i< len; i++) {
     getUserProfile(i).then(profile => console.log(profile.uid));
 }
 

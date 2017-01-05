@@ -33,7 +33,7 @@ var requestUserProfile = function(uidList){  // uidList 是一个数组，最大
         }).then(function(){
         var profileList = _uidList.map(function(uid){
             if(uid < 0){  // 模拟 uid 传错，服务端异常，获取不到部分 uid 对应的 profile 等异常场景
-            return null;
+                return null;
             }else{
                 return {
                     uid: uid,
@@ -485,6 +485,24 @@ describe('EventsMerge 事件合并对象', function(){
                 });    
             },500);
             
+        });
+    });
+
+    describe('细节优化', function() {
+        it('runnable应该以uid不重复的count为准则，而不应该是total(可能会重复)的count', function(done) {
+            this.timeout(5000);
+            let i = 0;
+            let count = 0;
+            while(i < 300) {
+                i++;
+                this.getUserProfile(1).then(profile => {
+                    count++;
+                    if(count == 300) {
+                        assert(serverCount === 1);
+                        done();
+                    }
+                }, err => done(err));
+            }
         });
     });
 

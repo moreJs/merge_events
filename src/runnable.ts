@@ -10,6 +10,7 @@ export class Runnable{
     dispatcher: Dispatcher;
     emitterFun: (uids: Array<string>) => Promise<any>;
     emitQueue: Array<EmitCbObj>;
+    uids: Array<string>;
     cache: Map<string, Profile>;
     howLong: number;
     timerId: number;
@@ -19,16 +20,22 @@ export class Runnable{
         this.howLong = dispatcher.howLong;
         this.emitterFun = dispatcher.emitterFun;
         this.emitQueue = new Array<EmitCbObj>();
+        this.uids = new Array<string>();
         this.cache = new Map<string, Profile>();    
     }
 
     public emit(emitCbObj: EmitCbObj) {
         this.emitQueue.push(emitCbObj);
+        let uid = emitCbObj.uid;
+        // 不添加重复的uid
+        if(this.uids.indexOf(uid) === -1) {
+            this.uids.push(uid);
+        }
         if(this.emitQueue.length === 1) {
             this._addTimer();
         }
-        // 处理100的问题
-        if(this.emitQueue.length === 100) {
+        // 处理100的问题, 并且 uids 里面没有重复的uid
+        if(this.uids.length === 100) {
             if(this.timerId) {
                 clearTimeout(this.timerId);
             }
@@ -44,11 +51,8 @@ export class Runnable{
 
     private _run() {
         this._destory();
-        let uids = this.emitQueue.map(emitCbObj => {
-            return emitCbObj.uid;
-        });
-        // uids 去重复
-        uids = distinct(uids);
+        // 直接拿 this.uids 队列里面的即可，这里面保证了不重复,并且长度小于100
+        let uids = this.uids;
         this.emitterFun(uids)
             .then(profiles => this._success(profiles), error => this._error(error))
             .catch(error => this._error(error));
